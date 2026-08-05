@@ -26,7 +26,6 @@ jobs:
         username: ${{ secrets.DOCKER_USERNAME }}
         password: ${{ secrets.DOCKER_PASSWORD }}
         
-    - name: Build the Docker image
+    - name: Build and upload Docker image
       run: |
-        make build
-        make upload
+        make
