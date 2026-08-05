@@ -9,6 +9,7 @@ all: build
 
 build:
 	$(DOCKER) buildx build \
+		--file docker/Dockerfile \
 		--no-cache \
 		--platform linux/arm64,linux/amd64 \
 		--push \
