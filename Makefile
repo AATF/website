@@ -8,9 +8,6 @@ REGISTRY = aatf
 all: build
 
 build:
-	$(DOCKER) login \
-		--username wafbot \
-		--password $(DOCKER_PASSWORD)
 	$(DOCKER) buildx build \
 		--no-cache \
 		--platform linux/arm64,linux/amd64 \
