@@ -1,5 +1,6 @@
   <footer class="footer">
     <div class="container">
+      <p class="text-muted credit"><a href="/privacy-policy" target="_blank">Privacy Policy</a> - <a href="/terms-of-service" target="_blank">Terms of Service</a></p>
       <p>Copyright &copy; 2003-present Asian Arts Talents Foundation. All Rights Reserved.</p>
       <p style="color: #17202A; font-size: 95%">Asian Arts Talents Foundation is a United States 501(c)(3) non-profit organization | EIN: 57-1193358</p>
       <p style="color: #CBCBCB; font-size: 90%">Site Version: <?php print $site_version; ?> | Source code located at <a href="//github.com/aatf/aatf.us">GitHub</a></p>

@@ -23,7 +23,7 @@ RUN yum install --assumeyes \
   wget \
   zip
 
-WORKDIR /website
+WORKDIR /src
 
 COPY docker/files/install-composer /
 
@@ -38,8 +38,8 @@ RUN chown --recursive $app_user:$app_user \
   /var/run/php-fpm
 
 COPY docker/files/ /
-COPY website/ /website/
-COPY VERSION /website/
+COPY src/ /app
+COPY VERSION /app
 
 EXPOSE 8080
 

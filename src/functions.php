@@ -1,5 +1,11 @@
 <?php
-require "vendor/autoload.php";
+if (file_exists(__DIR__ . '/vendor/autoload.php')) {
+    require_once __DIR__ . '/vendor/autoload.php';
+} elseif (file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    require_once __DIR__ . '/../vendor/autoload.php';
+} elseif (file_exists('vendor/autoload.php')) {
+    require_once 'vendor/autoload.php';
+}
 
 use Aws\S3\S3Client;
 
@@ -10,7 +16,11 @@ $sharedConfig = [
 //$sdk = new Aws\Sdk($sharedConfig);
 //$s3 = $sdk->createS3();
 
-$site_version = trim(file_get_contents("VERSION"));
+$version_file = __DIR__ . "/VERSION";
+if (!file_exists($version_file)) {
+    $version_file = __DIR__ . "/../VERSION";
+}
+$site_version = file_exists($version_file) ? trim(file_get_contents($version_file)) : '';
 
 $cdn_url = "cdn.aatf.us";
 
@@ -22,9 +32,9 @@ global $current_month;
 global $extra_head;
 
 $activitiesfile = $current_year . "-activities.txt";
-$activitiesarr = file("https://" . $cdn_url . "/" . $activitiesfile);
+$activitiesarr = @file("https://" . $cdn_url . "/" . $activitiesfile);
 
-$scholarshipwinnershandle = file("https://" . $cdn_url . "/scholarshipwinners_files/scholarshipwinners.txt");
+$scholarshipwinnershandle = @file("https://" . $cdn_url . "/scholarshipwinners_files/scholarshipwinners.txt");
 
 function format_date($date, $format = null) {
     if ($format) {
@@ -75,6 +85,43 @@ function get_image_files() {
 //    print($keys);
 
     return ["//" . $cdn_url . "/images/2005-dance-festival/2005aatffrdfPicture12.jpg"];
+}
+
+function get_gallery_images($name, $s3Client = null) {
+    global $cdn_url, $sharedConfig;
+    $images = [];
+
+    $clean_name = preg_replace('/[^a-zA-Z0-9_-]/', '', $name);
+    if (empty($clean_name)) {
+        return $images;
+    }
+
+    $prefix = "images/" . $clean_name . "/";
+
+    try {
+        if ($s3Client === null && class_exists('Aws\S3\S3Client')) {
+            $s3Client = new Aws\S3\S3Client($sharedConfig);
+        }
+
+        if ($s3Client) {
+            $objects = $s3Client->listObjectsV2([
+                "Bucket" => "aatf-us",
+                "Prefix" => $prefix,
+            ]);
+
+            $contents = $objects['Contents'] ?? (isset($objects->Contents) ? $objects->Contents : []);
+            foreach ($contents as $object) {
+                $key = is_array($object) ? ($object['Key'] ?? '') : ($object->Key ?? '');
+                if (preg_match('/(\.jpg|\.jpeg|\.png|\.gif)$/i', $key)) {
+                    $images[] = "//" . $cdn_url . "/" . ltrim($key, "/");
+                }
+            }
+        }
+    } catch (Exception $e) {
+        error_log("Failed to list S3 objects for gallery " . $clean_name . ": " . $e->getMessage());
+    }
+
+    return $images;
 }
 
 function recurse_dir($dirname) {
