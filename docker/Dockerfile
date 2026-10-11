@@ -15,9 +15,9 @@ RUN yum install --assumeyes \
   git \
   net-tools \
   nginx \
-  php8.1-cli \
-  php8.1-fpm \
-  php8.1-mbstring \
+  php8.5-cli \
+  php8.5-fpm \
+  php8.5-mbstring \
   procps \
   vim \
   wget \
