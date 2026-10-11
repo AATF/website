@@ -33,7 +33,6 @@ if ($gallery_name) {
   <div class="row">
     <?php
     $images = get_gallery_images($gallery_name);
-    var_dump($images);
     if (empty($images)) {
     ?>
       <div class="col-12">

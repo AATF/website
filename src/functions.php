@@ -78,7 +78,7 @@ function get_s3_key($o) {
 }
 
 function get_image_files() {
-    $objects = $s3->listObjectsV2([
+    $objects = $s3client->listObjectsV2([
         "Bucket" => "aatf-us",
         "MaxKeys" => 1000,
     ])->Contents;
