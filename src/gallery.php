@@ -26,13 +26,22 @@ include_once('header.php');
     <h1><?php print $title ?></h1>
   </div>
 
-<?php if ($gallery_name): ?>
+<?php
+if ($gallery_name) {
+?>
   <p><a href="?" class="btn btn-secondary mb-3">&larr; Back to Gallery</a></p>
   <div class="row">
     <?php
     $images = get_gallery_images($gallery_name);
-    if (!empty($images)):
-        foreach ($images as $img):
+    var_dump($images);
+    if (empty($images)) {
+    ?>
+      <div class="col-12">
+        <p>No images found.</p>
+      </div>
+    <?php
+    } else {
+        foreach ($images as $img) {
     ?>
       <div class="col-6 col-md-3 mb-4">
         <a href="<?php print $img; ?>" target="_blank">
@@ -40,20 +49,20 @@ include_once('header.php');
         </a>
       </div>
     <?php
-        endforeach;
-    else:
+        }
+    }
     ?>
-      <div class="col-12">
-        <p>No images found.</p>
-      </div>
-    <?php endif; ?>
   </div>
   <p><a href="?" class="btn btn-secondary mt-3">&larr; Back to Gallery</a></p>
-<?php else: ?>
-  <?php foreach ($galleries as $slug => $name): ?>
+<?php
+} else {
+  foreach ($galleries as $slug => $name) {
+?>
     <p><a href="?name=<?php print $slug; ?>"><?php print $name; ?></a></p>
-  <?php endforeach; ?>
-<?php endif; ?>
+  <?php
+  }
+}
+?>
 </div>
 
 <?php include_once('footer.php'); ?>
