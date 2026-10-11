@@ -2,8 +2,14 @@
     <div class="container">
       <p class="text-muted credit"><a href="/privacy-policy" target="_blank">Privacy Policy</a> - <a href="/terms-of-service" target="_blank">Terms of Service</a></p>
       <p>Copyright &copy; 2003-present Asian Arts Talents Foundation. All Rights Reserved.</p>
-      <p style="color: #17202A; font-size: 95%">Asian Arts Talents Foundation is a United States 501(c)(3) non-profit organization | EIN: 57-1193358</p>
-      <p style="color: #CBCBCB; font-size: 90%">Site Version: <?php print $site_version; ?> | Source code located at <a href="//github.com/aatf/aatf.us">GitHub</a></p>
+      <p class="footer-org-info">Asian Arts Talents Foundation is a United States 501(c)(3) non-profit organization | EIN: 57-1193358</p>
+      <p class="footer-version-info">Site Version: <?php print $site_version; ?> | Source code located at <a href="//github.com/aatf/aatf.us">GitHub</a></p>
+      <p class="theme-switcher-footer text-muted">
+        Theme: 
+        <button type="button" class="btn btn-link btn-sm p-0 theme-footer-btn" data-bs-theme-value="light" aria-label="Set light mode">Light</button> &middot; 
+        <button type="button" class="btn btn-link btn-sm p-0 theme-footer-btn" data-bs-theme-value="dark" aria-label="Set dark mode">Dark</button> &middot; 
+        <button type="button" class="btn btn-link btn-sm p-0 theme-footer-btn" data-bs-theme-value="auto" aria-label="Set auto mode">Auto (System)</button>
+      </p>
     </div>
   </footer>
 
@@ -22,7 +28,74 @@
   <?php
   };
   ?>
-  <script src="//<?php print $cdn_url; ?>/assets/js/bootstrap.min.js"></script>
+  <script src="//<?php print $cdn_url; ?>/assets/js/bootstrap.bundle.min.js"></script>
+  <script src="//<?php print $cdn_url; ?>/assets/js/theme.js"></script>
+  <script>
+    if (typeof window.AATFTheme === 'undefined') {
+      (() => {
+        const STORAGE_KEY = 'theme';
+        const getStoredPref = () => {
+          try {
+            const v = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('aatf_theme');
+            if (v === 'light' || v === 'dark' || v === 'auto') return v;
+          } catch(e) {}
+          return 'auto';
+        };
+        const resolve = p => {
+          if (p === 'auto') return (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+          return p === 'dark' ? 'dark' : 'light';
+        };
+        const updateUI = (pref, resolved) => {
+          const btn = document.querySelector('#bd-theme');
+          if (btn) btn.setAttribute('aria-label', 'Toggle theme (' + pref + ')');
+          document.querySelectorAll('[data-bs-theme-value]').forEach(el => {
+            const isAct = el.getAttribute('data-bs-theme-value') === pref;
+            el.classList.toggle('active', isAct);
+            el.setAttribute('aria-pressed', isAct ? 'true' : 'false');
+            const chk = el.querySelector('.check-icon');
+            if (chk) chk.classList.toggle('d-none', !isAct);
+          });
+          document.querySelectorAll('.theme-footer-btn').forEach(fb => {
+            const isFAct = fb.getAttribute('data-bs-theme-value') === pref;
+            fb.classList.toggle('active', isFAct);
+            fb.classList.toggle('fw-bold', isFAct);
+            fb.setAttribute('aria-pressed', isFAct ? 'true' : 'false');
+          });
+        };
+        const apply = p => {
+          if (p !== 'light' && p !== 'dark' && p !== 'auto') p = 'auto';
+          const r = resolve(p);
+          document.documentElement.setAttribute('data-bs-theme', r);
+          document.documentElement.setAttribute('data-bs-theme-preference', p);
+          try {
+            localStorage.setItem(STORAGE_KEY, p);
+            localStorage.setItem('aatf_theme', p);
+            document.cookie = 'theme=' + encodeURIComponent(p) + ';path=/;max-age=31536000;SameSite=Lax';
+            document.cookie = 'aatf_theme=' + encodeURIComponent(p) + ';path=/;max-age=31536000;SameSite=Lax';
+          } catch(e) {}
+          updateUI(p, r);
+        };
+        apply(getStoredPref());
+        document.addEventListener('click', e => {
+          const target = e.target.closest('[data-bs-theme-value]');
+          if (target) {
+            e.preventDefault();
+            apply(target.getAttribute('data-bs-theme-value'));
+          }
+        });
+        if (window.matchMedia) {
+          const mq = window.matchMedia('(prefers-color-scheme: dark)');
+          const handler = () => { if (getStoredPref() === 'auto') apply('auto'); };
+          if (mq.addEventListener) mq.addEventListener('change', handler);
+          else if (mq.addListener) mq.addListener(handler);
+        }
+        window.addEventListener('storage', e => {
+          if (e.key === STORAGE_KEY || e.key === 'aatf_theme') apply(e.newValue || 'auto');
+        });
+        window.AATFTheme = { getPreference: getStoredPref, setPreference: apply, getResolvedTheme: () => resolve(getStoredPref()) };
+      })();
+    }
+  </script>
 
   <!-- Google Analytics -->
   <script>

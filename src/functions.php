@@ -74,22 +74,29 @@ function flatten(array $array) {
 }
 
 function get_s3_key($o) {
-    return $o->Key;
+    return $o['Key'];
 }
 
 function get_image_files() {
+    global $cdn_url, $s3client;
+
+    $prefix = "images/";
     $objects = $s3client->listObjectsV2([
         "Bucket" => "aatf-us",
+        "Prefix" => $prefix,
         "MaxKeys" => 1000,
-    ])->Contents;
+    ])['Contents'];
     $keys = array_map("get_s3_key", $objects);
-    var_dump($keys);
+    error_log("S3 image keys: " . print_r($keys, true));
 
-    return ["//" . $cdn_url . "/images/2005-dance-festival/2005aatffrdfPicture12.jpg"];
+    return array_map(function($key) use ($cdn_url) {
+        return "//" . $cdn_url . "/" . ltrim($key, "/");
+    }, $keys);
 }
 
-function get_gallery_images($name) {
+function get_gallery_images($name, $client = null) {
     global $cdn_url, $s3client;
+
     $images = [];
 
     $clean_name = preg_replace('/[^a-zA-Z0-9_-]/', '', $name);
@@ -100,7 +107,8 @@ function get_gallery_images($name) {
     $prefix = "images/" . $clean_name . "/";
 
     try {
-        $objects = $s3client->listObjectsV2([
+        $s3 = $client ?? $s3client;
+        $objects = $s3->listObjectsV2([
             "Bucket" => "aatf-us",
             "Prefix" => $prefix,
         ]);

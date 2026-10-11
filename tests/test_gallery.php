@@ -87,6 +87,7 @@ $mockS3Fail->shouldThrow = true;
 $errorResult = get_gallery_images('archives', $mockS3Fail);
 assert_equals([], $errorResult, 'S3 exception handled gracefully and returns empty array');
 
+$s3client = $mockS3;
 echo "\n--- Testing gallery.php rendering ---\n";
 
 // Test gallery index rendering (no name param)

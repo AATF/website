@@ -16,13 +16,31 @@ body {
   bottom: 0;
   width: 100%;
   height: auto;
-  background-color: #F5F5F5;
+  background-color: var(--bs-tertiary-bg);
+  border-top: 1px solid var(--bs-border-color-translucent);
+  padding: 15px 0;
 }
 
 .footer p {
-  height: 10px;
+  height: auto;
+  margin-bottom: 6px;
 }
 
 .footer a {
-  color: #B3B9FF;
+  color: var(--bs-link-color);
+}
+
+.footer .footer-org-info {
+  color: var(--bs-body-color);
+  font-size: 95%;
+}
+
+.footer .footer-version-info {
+  color: var(--bs-secondary-color);
+  font-size: 90%;
+}
+
+/* Invert black logo on transparent background in dark mode */
+[data-bs-theme="dark"] .featurette-image[src*="aatflogo-bw-transparent"] {
+  filter: brightness(0) invert(1);
 }
