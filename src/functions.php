@@ -78,18 +78,18 @@ function get_s3_key($o) {
 }
 
 function get_image_files() {
-//    $objects = $s3->listObjectsV2([
-//        "Bucket" => "aatf-us",
-//        "MaxKeys" => 1000,
-//    ])->Contents;
-//    $keys = array_map("get_s3_key", $objects);
-//    print($keys);
+    $objects = $s3->listObjectsV2([
+        "Bucket" => "aatf-us",
+        "MaxKeys" => 1000,
+    ])->Contents;
+    $keys = array_map("get_s3_key", $objects);
+    var_dump($keys);
 
     return ["//" . $cdn_url . "/images/2005-dance-festival/2005aatffrdfPicture12.jpg"];
 }
 
 function get_gallery_images($name) {
-    global $cdn_url, $sharedConfig;
+    global $cdn_url, $s3client;
     $images = [];
 
     $clean_name = preg_replace('/[^a-zA-Z0-9_-]/', '', $name);
@@ -100,20 +100,18 @@ function get_gallery_images($name) {
     $prefix = "images/" . $clean_name . "/";
 
     try {
-        if ($s3client) {
-            $objects = $s3client->listObjectsV2([
-                "Bucket" => "aatf-us",
-                "Prefix" => $prefix,
-            ]);
-            error_log("Listed S3 objects for prefix: " . $prefix);
-            error_log("S3 objects response: " . print_r($objects, true));
+        $objects = $s3client->listObjectsV2([
+            "Bucket" => "aatf-us",
+            "Prefix" => $prefix,
+        ]);
+        error_log("Listed S3 objects for prefix: " . $prefix);
+        error_log("S3 objects response: " . print_r($objects, true));
 
-            $contents = $objects['Contents'] ?? (isset($objects->Contents) ? $objects->Contents : []);
-            foreach ($contents as $object) {
-                $key = is_array($object) ? ($object['Key'] ?? '') : ($object->Key ?? '');
-                if (preg_match('/(\.jpg|\.jpeg|\.png|\.gif)$/i', $key)) {
-                    $images[] = "//" . $cdn_url . "/" . ltrim($key, "/");
-                }
+        $contents = $objects['Contents'] ?? (isset($objects->Contents) ? $objects->Contents : []);
+        foreach ($contents as $object) {
+            $key = is_array($object) ? ($object['Key'] ?? '') : ($object->Key ?? '');
+            if (preg_match('/(\.jpg|\.jpeg|\.png|\.gif)$/i', $key)) {
+                $images[] = "//" . $cdn_url . "/" . ltrim($key, "/");
             }
         }
     } catch (Exception $e) {
