@@ -5,16 +5,27 @@ TAG = $(IMAGE):$(file < VERSION)
 
 REGISTRY = aatf
 
+ARCH ?= amd64
+PLATFORM ?= linux/$(ARCH)
+PUSH ?= --push
+
 all: build
 
 build:
 	$(DOCKER) buildx build \
 		--file docker/Dockerfile \
 		--no-cache \
-		--platform linux/arm64,linux/amd64 \
-		--push \
+		--platform $(PLATFORM) \
+		$(PUSH) \
+		--tag $(REGISTRY)/$(TAG)-$(ARCH) \
+		--tag $(REGISTRY)/$(IMAGE):latest-$(ARCH) .
+
+manifest:
+	$(DOCKER) buildx imagetools create \
 		--tag $(REGISTRY)/$(TAG) \
-		--tag $(REGISTRY)/$(IMAGE):latest .
+		--tag $(REGISTRY)/$(IMAGE):latest \
+		$(REGISTRY)/$(TAG)-amd64 \
+		$(REGISTRY)/$(TAG)-arm64
 
 run: build
 	$(DOCKER) run -p 60000:8080 -it --entrypoint /bin/bash $(TAG)
