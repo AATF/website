@@ -23,7 +23,7 @@ RUN yum install --assumeyes \
   wget \
   zip
 
-WORKDIR /src
+WORKDIR /app
 
 COPY docker/files/install-composer /
 

@@ -5,6 +5,8 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/../vendor/autoload.php';
 } elseif (file_exists('vendor/autoload.php')) {
     require_once 'vendor/autoload.php';
+} else {
+    error_log("Autoload file not found.");
 }
 
 use Aws\S3\S3Client;
@@ -13,8 +15,7 @@ $sharedConfig = [
     "region" => "us-west-2",
     "version" => "latest",
 ];
-//$sdk = new Aws\Sdk($sharedConfig);
-//$s3 = $sdk->createS3();
+$s3client = new S3Client($sharedConfig);
 
 $version_file = __DIR__ . "/VERSION";
 if (!file_exists($version_file)) {
@@ -87,7 +88,7 @@ function get_image_files() {
     return ["//" . $cdn_url . "/images/2005-dance-festival/2005aatffrdfPicture12.jpg"];
 }
 
-function get_gallery_images($name, $s3Client = null) {
+function get_gallery_images($name) {
     global $cdn_url, $sharedConfig;
     $images = [];
 
@@ -99,15 +100,13 @@ function get_gallery_images($name, $s3Client = null) {
     $prefix = "images/" . $clean_name . "/";
 
     try {
-        if ($s3Client === null && class_exists('Aws\S3\S3Client')) {
-            $s3Client = new Aws\S3\S3Client($sharedConfig);
-        }
-
-        if ($s3Client) {
-            $objects = $s3Client->listObjectsV2([
+        if ($s3client) {
+            $objects = $s3client->listObjectsV2([
                 "Bucket" => "aatf-us",
                 "Prefix" => $prefix,
             ]);
+            error_log("Listed S3 objects for prefix: " . $prefix);
+            error_log("S3 objects response: " . print_r($objects, true));
 
             $contents = $objects['Contents'] ?? (isset($objects->Contents) ? $objects->Contents : []);
             foreach ($contents as $object) {
@@ -120,6 +119,8 @@ function get_gallery_images($name, $s3Client = null) {
     } catch (Exception $e) {
         error_log("Failed to list S3 objects for gallery " . $clean_name . ": " . $e->getMessage());
     }
+    error_log("Total images found for gallery " . $clean_name . ": " . count($images));
+    error_log("Gallery images: " . print_r($images, true));
 
     return $images;
 }

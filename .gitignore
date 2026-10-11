@@ -1,3 +1,6 @@
+vendor/
+
 bootstrap-*
+
 *.zip
 *.map
