@@ -18,6 +18,7 @@ RUN yum install --assumeyes \
   php8.5-cli \
   php8.5-fpm \
   php8.5-mbstring \
+  php8.5-xml \
   procps \
   vim \
   wget \
