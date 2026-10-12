@@ -1,4 +1,4 @@
-  <footer class="footer">
+  <footer class="footer bg-body-tertiary border-top">
     <div class="container">
       <p class="text-muted credit"><a href="/privacy-policy" target="_blank">Privacy Policy</a> - <a href="/terms-of-service" target="_blank">Terms of Service</a></p>
       <p>Copyright &copy; 2003-present Asian Arts Talents Foundation. All Rights Reserved.</p>

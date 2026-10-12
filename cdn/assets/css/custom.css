@@ -17,6 +17,7 @@ body {
   width: 100%;
   height: auto;
   background-color: var(--bs-tertiary-bg);
+  color: var(--bs-body-color);
   border-top: 1px solid var(--bs-border-color-translucent);
   padding: 15px 0;
 }

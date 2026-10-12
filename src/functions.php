@@ -89,6 +89,7 @@ function get_image_files() {
         "Prefix" => $prefix,
         "MaxKeys" => 50,
     ])['Contents'];
+    error_log("S3 objects retrieved: " . print_r($objects, true));
     $keys = array_map("get_s3_key", $objects);
     error_log("S3 image keys: " . print_r($keys, true));
 
