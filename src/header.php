@@ -1,5 +1,6 @@
 <?php
 include_once('functions.php');
+
 $preferred_theme = isset($_COOKIE['theme']) && in_array($_COOKIE['theme'], ['light', 'dark', 'auto']) ? $_COOKIE['theme'] : (isset($_COOKIE['aatf_theme']) && in_array($_COOKIE['aatf_theme'], ['light', 'dark', 'auto']) ? $_COOKIE['aatf_theme'] : 'auto');
 ?>
 

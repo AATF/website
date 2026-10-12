@@ -5,6 +5,8 @@ if (file_exists(__DIR__ . '/vendor/autoload.php')) {
     require_once __DIR__ . '/../vendor/autoload.php';
 } elseif (file_exists('vendor/autoload.php')) {
     require_once 'vendor/autoload.php';
+} elseif (file_exists('/app/vendor/autoload.php')) {
+    require_once '/app/vendor/autoload.php';
 } else {
     error_log("Autoload file not found.");
 }
@@ -81,10 +83,11 @@ function get_image_files() {
     global $cdn_url, $s3client;
 
     $prefix = "images/";
+    error_log("Listing S3 objects with prefix: " . $prefix);
     $objects = $s3client->listObjectsV2([
         "Bucket" => "aatf-us",
         "Prefix" => $prefix,
-        "MaxKeys" => 1000,
+        "MaxKeys" => 50,
     ])['Contents'];
     $keys = array_map("get_s3_key", $objects);
     error_log("S3 image keys: " . print_r($keys, true));

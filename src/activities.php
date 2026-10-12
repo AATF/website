@@ -1,4 +1,5 @@
 <?php
+include_once('functions.php');
 $title = $current_year . ' Activities';
 include_once('header.php');
 ?>
