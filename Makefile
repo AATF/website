@@ -27,10 +27,22 @@ manifest:
 		$(REGISTRY)/$(TAG)-amd64 \
 		$(REGISTRY)/$(TAG)-arm64
 
-run: build
-	$(DOCKER) run -p 60000:8080 -it --entrypoint /bin/bash $(TAG)
+build-local:
+	$(DOCKER) buildx build \
+		--file docker/Dockerfile \
+		--no-cache \
+		--tag $(REGISTRY)/$(TAG)-$(ARCH) \
+		--tag $(REGISTRY)/$(IMAGE):latest-$(ARCH) .
 
-test: run
+run:
+	$(DOCKER) run -p 60000:8080 $(REGISTRY)/$(TAG)-$(ARCH)
+
+build-and-run: build-local run
+
+test:
+	$(DOCKER) run -p 60000:8080 -it --entrypoint /bin/bash $(REGISTRY)/$(TAG)-$(ARCH)
+
+build-and-test: build-local test
 
 deploy:
 	go run ./scripts/deploy.go

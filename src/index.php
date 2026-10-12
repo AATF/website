@@ -27,7 +27,7 @@ $pattern = "/(\.jpg$)|(\.png$)|(\.jpeg$)|(\.gif$)/"; // valid image extensions
 $dirname = "images";
 $count = 0;
 
-$files = get_image_files();
+$files = [];//get_image_files();
 foreach ($files as $file) {
   if (preg_match($pattern, $file)) { // if this file is a valid image
     $slide = "slide" . $count;
