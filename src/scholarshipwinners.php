@@ -23,7 +23,7 @@ if ($scholarshipwinnershandle) {
     foreach ($scholarshipwinnershandle as $buffer) {
         $buffer = trim($buffer);
         if ((substr($buffer, 0, 1) != "#") && ($buffer != "")) {
-            list($year, $place, $name, $school, $display, $filename) = preg_split('/:/', $buffer, -1, PREG_SPLIT_NO_EMPTY);
+            list($year, $place, $name, $school, $display, $filename) = array_pad(explode(':', $buffer), 6, null);
             $winners[$year][$name] = ['place' => $place, 'school' => $school, 'display' => $display, 'filename' => $filename];
         };
     };
