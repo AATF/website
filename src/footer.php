@@ -4,12 +4,6 @@
       <p>Copyright &copy; 2003-present Asian Arts Talents Foundation. All Rights Reserved.</p>
       <p class="footer-org-info">Asian Arts Talents Foundation is a United States 501(c)(3) non-profit organization | EIN: 57-1193358</p>
       <p class="footer-version-info">Site Version: <?php print $site_version; ?> | Source code located at <a href="//github.com/aatf/aatf.us">GitHub</a></p>
-      <p class="theme-switcher-footer text-muted">
-        Theme: 
-        <button type="button" class="btn btn-link btn-sm p-0 theme-footer-btn" data-bs-theme-value="light" aria-label="Set light mode">Light</button> &middot; 
-        <button type="button" class="btn btn-link btn-sm p-0 theme-footer-btn" data-bs-theme-value="dark" aria-label="Set dark mode">Dark</button> &middot; 
-        <button type="button" class="btn btn-link btn-sm p-0 theme-footer-btn" data-bs-theme-value="auto" aria-label="Set auto mode">Auto (System)</button>
-      </p>
     </div>
   </footer>
 

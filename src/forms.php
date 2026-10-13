@@ -13,9 +13,9 @@ $links = [
   "Scholarship Requirements" => "ScholarshipRequirements.pdf",
   "Scholarship Application" => "ScholarshipApplication.pdf",
   "Enrollment Form" => "EnrollmentForm.pdf",
-  "Adult class registration" => "summer-school/AATF_AACC_Registration_Form_ADULT_CLASS_v2024_05.pdf",
-  "weekend adult class registration" => "summer-school/AATF_AACC_Registration_Form_SATURDAY_v2024_05.pdf",
-  "summer camp registration" => "summer-school/AATF_AACC_Registration_Form_SUMMER_CAMP_v2024_05.pdf",
+  "Adult Class Registration" => "summer-school/AATF_AACC_Registration_Form_ADULT_CLASS_v2024_05.pdf",
+  "Weekend Adult Class Registration" => "summer-school/AATF_AACC_Registration_Form_SATURDAY_v2024_05.pdf",
+  "Summer Camp Registration" => "summer-school/AATF_AACC_Registration_Form_SUMMER_CAMP_v2024_05.pdf",
 ];
 foreach($links as $text => $url) {
 ?>

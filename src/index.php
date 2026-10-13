@@ -97,8 +97,8 @@ if (file_exists("banner.html")) {
                 <div class="lead">
 <?php
 $count = 0;
-if ($activitieshandle) {
-  while (($buffer = fgets($activitieshandle)) != false) {
+if ($activitiesarr) {
+  foreach ($activitiesarr as $buffer) {
     list($date, $event) = preg_split("/\s-\s/", trim($buffer));
     $month = format_date($date, "%B");
     if ($current_month == $month) {
