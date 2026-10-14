@@ -1,6 +1,6 @@
 name: deploy
 
-'on':
+on:
   workflow_run:
     workflows: ["build image"]
     types:
@@ -27,7 +27,7 @@ jobs:
         with:
           oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
           oauth-secret: ${{ secrets.TS_OAUTH_CLIENT_SECRET }}
-          tags: tag:ci
+          tags: tag:ci,tag:aws,tag:aatf-prod
 
       - name: Authenticate with AWS OIDC
         uses: aws-actions/configure-aws-credentials@v6
