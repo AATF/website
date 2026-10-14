@@ -39,4 +39,4 @@ jobs:
         run: |
           aws eks update-kubeconfig --name interesting-blues-orca
 
-          kubectl -n website rollout restart website-aatf-common
+          kubectl -n website rollout restart deploy/website-aatf-common
