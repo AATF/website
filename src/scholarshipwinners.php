@@ -34,7 +34,7 @@ if ($scholarshipwinnershandle) {
   <div class="container">
     <h1><?php print $title ?></h1>
     <?php
-        if ($winners[$current_year - 1]) {
+        if (in_array($current_year - 1, array_keys($winners))) {
     ?>
     <h2>Congratulations to the <?php print $current_year - 1 ?> scholarship winners!</h2>
     <?php
