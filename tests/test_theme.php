@@ -76,25 +76,31 @@ assert_true(strpos($fallbackHeader, 'data-bs-theme-preference="auto"') !== false
 
 echo "\n--- Testing Theme Support in footer.php ---\n";
 
-// Test 5: Footer theme switcher
+// Test 5: Footer theme support and text colors
 $_SERVER['SCRIPT_NAME'] = '/index.php';
 ob_start();
 include __DIR__ . '/../src/footer.php';
 $footerOutput = ob_get_clean();
 
-assert_true(strpos($footerOutput, 'theme-switcher-footer') !== false, 'Renders theme switcher in footer');
-assert_true(strpos($footerOutput, 'data-bs-theme-value="light"') !== false, 'Footer has data-bs-theme-value for light');
-assert_true(strpos($footerOutput, 'data-bs-theme-value="dark"') !== false, 'Footer has data-bs-theme-value for dark');
-assert_true(strpos($footerOutput, 'data-bs-theme-value="auto"') !== false, 'Footer has data-bs-theme-value for auto');
+assert_true(strpos($footerOutput, 'footer-org-info') !== false, 'Renders footer-org-info class in footer');
+assert_true(strpos($footerOutput, 'footer-version-info') !== false, 'Renders footer-version-info class in footer');
+assert_true(strpos($footerOutput, '#17202A') !== false, 'Footer includes light mode org info color #17202A');
+assert_true(strpos($footerOutput, '#CBCBCB') !== false, 'Footer includes light mode version info color #CBCBCB');
+assert_true(strpos($footerOutput, '[data-bs-theme="dark"] .footer .footer-org-info') !== false, 'Footer includes dark mode org info color rule');
+assert_true(strpos($footerOutput, '[data-bs-theme="dark"] .footer .footer-version-info') !== false, 'Footer includes dark mode version info color rule');
 assert_true(strpos($footerOutput, 'theme.js') !== false, 'Loads theme.js in footer');
 
-echo "\n--- Testing custom.css uses Bootstrap variables ---\n";
+echo "\n--- Testing custom.css uses Bootstrap variables and light/dark footer colors ---\n";
 
 $css = file_get_contents(__DIR__ . '/../cdn/assets/css/custom.css');
 
 assert_true(strpos($css, '--bs-tertiary-bg') !== false, 'Footer uses Bootstrap built-in --bs-tertiary-bg');
 assert_true(strpos($css, '--bs-link-color') !== false, 'Footer uses Bootstrap built-in --bs-link-color');
 assert_true(strpos($css, '--bg-primary') === false, 'custom.css does not define redundant custom theme variables');
+assert_true(strpos($css, '#17202A') !== false, 'custom.css defines #17202A for light mode org info');
+assert_true(strpos($css, '#CBCBCB') !== false, 'custom.css defines #CBCBCB for light mode version info');
+assert_true(strpos($css, '[data-bs-theme="dark"] .footer .footer-org-info') !== false, 'custom.css defines dark mode override for org info');
+assert_true(strpos($css, '[data-bs-theme="dark"] .footer .footer-version-info') !== false, 'custom.css defines dark mode override for version info');
 
 echo "\n--- Testing JavaScript in theme.js ---\n";
 

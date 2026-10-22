@@ -1,3 +1,21 @@
+  <style>
+    .footer .footer-org-info {
+      color: #17202A;
+      color: light-dark(#17202A, #dee2e6);
+      font-size: 95%;
+    }
+    [data-bs-theme="dark"] .footer .footer-org-info {
+      color: var(--bs-body-color, #dee2e6);
+    }
+    .footer .footer-version-info {
+      color: #CBCBCB;
+      color: light-dark(#CBCBCB, #555B61);
+      font-size: 90%;
+    }
+    [data-bs-theme="dark"] .footer .footer-version-info {
+      color: #555B61;
+    }
+  </style>
   <footer class="footer bg-body-tertiary border-top">
     <div class="container">
       <p class="text-muted credit"><a href="/privacy-policy" target="_blank">Privacy Policy</a> - <a href="/terms-of-service" target="_blank">Terms of Service</a></p>
