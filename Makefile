@@ -50,5 +50,5 @@ deploy:
 	go run ./scripts/deploy.go
 
 cdn:
-	aws --profile aatf-prod s3 sync cdn s3://aatf-us
-	aws --profile aatf-prod cloudfront create-invalidation --distribution-id E2I115JCPONE5R --paths '/*'
+	aws s3 sync cdn s3://aatf-us
+	aws cloudfront create-invalidation --distribution-id E2I115JCPONE5R --paths '/*'
