@@ -9,6 +9,8 @@ ARCH ?= amd64
 PLATFORM ?= linux/$(ARCH)
 PUSH ?= --push
 
+.PHONY: build manifest build-local run build-and-run build-and-test test cdn deploy
+
 all: build
 
 build:
@@ -46,3 +48,7 @@ build-and-test: build-local test
 
 deploy:
 	go run ./scripts/deploy.go
+
+cdn:
+	aws --profile aatf-prod s3 sync cdn s3://aatf-us
+	aws --profile aatf-prod cloudfront create-invalidation --distribution-id E2I115JCPONE5R --paths '/*'

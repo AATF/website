@@ -37,6 +37,8 @@ jobs:
 
       - name: restart deployment
         run: |
+          make cdn
+
           aws eks update-kubeconfig --name interesting-blues-orca
 
           kubectl -n website rollout restart deploy/website-aatf-common
