@@ -21,11 +21,11 @@ include_once('header.php');
   <p><a href="//<?php print $cdn_url; ?>/donationform.pdf" target="_blank" class="capsule">Donation Form</a></p>
 
   <h3>Online Donations</h3>
-  <p><a href="https://www.patreon.com/bePatron?u=5695932" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script></p>
+  <p><a href="https://funraise.org/give/Asian-Arts-Talents-Foundation/0000711e-61e9-4b82-9634-c3e17cb70a1d/">Donate directly on Funraise</a></p>
 
-  <button type="button" aria-label="Donate" data-formId="19142" style="padding: 12px 35px; font-size: 18px; border-radius: 3px; margin: 10px auto; background-color: ; color: null; border: none; outline: none; cursor: pointer; display: block">Donate</button>
+  <button type="button" aria-label="Donate" data-formId="19142" style="padding: 12px 35px; font-size: 18px; border-radius: 3px; margin: 10px auto; background-color: ; color: null; border: none; outline: none; cursor: pointer; display: block">Donate here on Funraise</button>
 
-  <p><a href="https://funraise.org/give/Asian-Arts-Talents-Foundation/0000711e-61e9-4b82-9634-c3e17cb70a1d/">funraise</a></p>
+  <p><a href="https://patreon.aatf.us" data-patreon-widget-type="become-patron-button">Become a Patron on Patreon!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script></p>
 
   <form action="https://www.paypal.com/donate" method="post" target="_top">
     <input type="hidden" name="hosted_button_id" value="N8FJ99ZCXLAX4" />
