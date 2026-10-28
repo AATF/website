@@ -25,7 +25,7 @@ include_once('header.php');
 
   <button type="button" aria-label="Donate" data-formId="19142" style="padding: 12px 35px; font-size: 18px; border-radius: 3px; margin: 10px auto; background-color: ; color: null; border: none; outline: none; cursor: pointer; display: block">Donate here on Funraise</button>
 
-  <p><a href="https://patreon.aatf.us" data-patreon-widget-type="become-patron-button">Become a Patron on Patreon!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script></p>
+  <p><a href="https://patreon.aatf.us" data-patreon-widget-type="become-patron-button">Become a Patron on Patreon!</a></p>
 
   <form action="https://www.paypal.com/donate" method="post" target="_top">
     <input type="hidden" name="hosted_button_id" value="N8FJ99ZCXLAX4" />
